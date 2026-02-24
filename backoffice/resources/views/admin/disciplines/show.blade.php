@@ -84,36 +84,42 @@
                         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
                             @foreach ($discipline->athletes as $atleta)
                                 <div class="col">
-                                    <div class="d-flex align-items-center p-2 border rounded-pill bg-light hover-bg-white transition shadow-sm h-100">
-                                        <div class="mx-3">
-                                            @if($atleta->country)
-                                                <img src="https://flagsapi.com/{{ $atleta->country->code }}/flat/48.png" 
-                                                    alt="{{ $atleta->country->name }}" 
-                                                    style="width: 32px; height: 32px; object-fit: contain;">
-                                            @else
-                                                <div class="bg-secondary rounded-circle" style="width: 32px; height: 32px;"></div>
-                                            @endif
-                                        </div>
-                                        
-                                        <div class="overflow-hidden flex-grow-1">
-                                            <p class="mb-0 fw-bold text-truncate" style="font-size: 0.9rem;">
-                                                {{ $atleta->first_name }} {{ $atleta->last_name }}
-                                            </p>
-                                            <small class="text-muted text-uppercase" style="font-size: 0.7rem;">
-                                                {{ $atleta->country->code }}
-                                            </small>
-                                        </div>
+                                    <a href="{{ route('athletes.show', $atleta->id) }}" class="text-decoration-none h-100 d-block">
+                                        <div class="d-flex align-items-center p-2 border rounded-pill bg-light transition h-100 shadow-sm">
 
-                                        <div class="col-auto text-end pe-3">
-                                            @if($atleta->pivot->medal_type === 'gold')
-                                                <i class="bi bi-trophy-fill h5 mb-0" style="color: #FFD700;" title="Oro"></i>
-                                            @elseif($atleta->pivot->medal_type === 'silver')
-                                                <i class="bi bi-trophy-fill h5 mb-0" style="color: #C0C0C0;" title="Argento"></i>
-                                            @elseif($atleta->pivot->medal_type === 'bronze')
-                                                <i class="bi bi-trophy-fill h5 mb-0" style="color: #CD7F32;" title="Bronzo"></i>
-                                            @endif
+                                            <div class="ms-2 me-3">
+                                                @if($atleta->country)
+                                                    <img src="https://flagsapi.com/{{ $atleta->country->code }}/flat/48.png"
+                                                        alt="{{ $atleta->country->name }}"
+                                                        style="width: 32px; height: 32px; object-fit: contain;">
+                                                @else
+                                                    <div class="bg-secondary rounded-circle" style="width: 32px; height: 32px;"></div>
+                                                @endif
+                                            </div>
+
+                                            <div class="overflow-hidden flex-grow-1">
+                                                <p class="mb-0 fw-bold text-dark text-truncate" style="font-size: 0.9rem;">
+                                                    {{ $atleta->first_name }} {{ $atleta->last_name }}
+                                                </p>
+                                                <small class="text-muted text-uppercase" style="font-size: 0.7rem;">
+                                                    {{ $atleta->country->code ?? 'N/A' }}
+                                                </small>
+                                            </div>
+
+                                            <div class="me-3">
+                                                @php
+                                                    $medal = strtolower($atleta->pivot->medal_type ?? '');
+                                                @endphp
+                                                @if($medal === 'gold')
+                                                    <i class="bi bi-trophy-fill h5 mb-0" style="color: #FFD700;" title="Oro"></i>
+                                                @elseif($medal === 'silver')
+                                                    <i class="bi bi-trophy-fill h5 mb-0" style="color: #C0C0C0;" title="Argento"></i>
+                                                @elseif($medal === 'bronze')
+                                                    <i class="bi bi-trophy-fill h5 mb-0" style="color: #CD7F32;" title="Bronzo"></i>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             @endforeach
                         </div>
@@ -156,7 +162,5 @@
     .tracking-wider { letter-spacing: 0.1rem; }
     .hover-bg-white:hover { background-color: white !important; cursor: default; }
     .transition { transition: all 0.3s ease; }
-    .breadcrumb-item a { color: #6c757d; }
-    .breadcrumb-item.active { color: #0d6efd; font-weight: bold; }
 </style>
 @endsection

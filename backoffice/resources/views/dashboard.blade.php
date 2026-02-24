@@ -67,7 +67,7 @@
                     </div>
                     <h4 class="card-title fw-bold">Atleti</h4>
                     <p class="card-text text-muted mb-4">Visualizza l'elenco degli atleti olimpici e assegna loro le discipline di gara ufficiali.</p>
-                    <a href="#" class="btn btn-outline-success btn-lg w-100 rounded-pill disabled">
+                    <a href="{{route('athletes.index')}}" class="btn btn-outline-success btn-lg w-100 rounded-pill">
                         Vai agli Atleti
                     </a>
                 </div>

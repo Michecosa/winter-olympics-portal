@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AthleteController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DisciplineController;
 use App\Http\Controllers\ProfileController;
@@ -28,6 +29,9 @@ Route::middleware(['auth', 'verified'])
         });
 
 Route::resource('/disciplines', DisciplineController::class)
+    ->middleware('auth','verified');
+
+Route::resource('/athletes', AthleteController::class)
     ->middleware('auth','verified');
 
 require __DIR__.'/auth.php';

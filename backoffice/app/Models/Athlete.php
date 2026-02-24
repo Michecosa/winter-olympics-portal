@@ -14,4 +14,19 @@ class Athlete extends Model
         return $this->belongsToMany(Discipline::class)
             ->withPivot('medal_type');
     }
+
+    public function getGoldCountAttribute()
+    {
+        return $this->disciplines->filter(fn($d) => $d->pivot->medal_type === 'gold')->count();
+    }
+
+    public function getSilverCountAttribute()
+    {
+        return $this->disciplines->filter(fn($d) => $d->pivot->medal_type === 'silver')->count();
+    }
+
+    public function getBronzeCountAttribute()
+    {
+        return $this->disciplines->filter(fn($d) => $d->pivot->medal_type === 'bronze')->count();
+    }
 }
