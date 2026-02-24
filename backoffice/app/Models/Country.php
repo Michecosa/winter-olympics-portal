@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-    //
+    public function athletes() {
+        return $this->hasMany(Athlete::class);
+    }
 }

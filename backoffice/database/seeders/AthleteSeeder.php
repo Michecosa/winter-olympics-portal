@@ -17,6 +17,7 @@ class AthleteSeeder extends Seeder
             $newAthlete->last_name = $faker->lastName();
             $newAthlete->birth_date = $faker->dateTimeBetween('-40 years', '-17 years');
             $newAthlete->bio = "Atleta specializzato nelle discipline invernali, ha partecipato a diverse competizioni internazionali rappresentando con orgoglio la propria nazione.";
+            $newAthlete->country_id = rand(1,7);
             $newAthlete->save();
         }
     }
