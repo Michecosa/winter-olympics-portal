@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Athlete;
 use App\Models\Discipline;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DisciplineController extends Controller
 {
@@ -25,23 +27,53 @@ class DisciplineController extends Controller
 
         $disciplines = $query->orderBy('name', 'asc')->get();
 
-        return view('admin.disciplines.index', compact('disciplines'));
+        $availableSports = Discipline::select('sport')
+            ->distinct()
+            ->orderBy('sport', 'asc')
+            ->pluck('sport');
+
+        return view('admin.disciplines.index', compact('disciplines', 'availableSports'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+        public function create()
+        {
+            $athletes = Athlete::orderBy('first_name', 'asc')->get();
+
+            $availableSports = Discipline::select('sport')
+                ->distinct()
+                ->orderBy('sport', 'asc')
+                ->pluck('sport');
+            
+            return view("admin.disciplines.create", compact('athletes', 'availableSports'));
+        }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        // dd($data);
+        $newDiscipline = new Discipline();
+
+        $newDiscipline->name = $data['name'];
+        $newDiscipline->sport = $data['sport'];
+        $newDiscipline->description = $data['description'];
+
+        if ($request->hasFile('cover_image')) {
+            $img_path = Storage::putFile('disciplines_images', $request->file('cover_image'));
+            $newDiscipline->cover_image = $img_path;
+        }
+        $newDiscipline->save();
+
+        if (array_key_exists('athletes', $data)) {
+            $newDiscipline->athletes()->attach($data['athletes']);
+        }
+
+        return redirect()->route("disciplines.show", $newDiscipline->id);
     }
 
     /**
@@ -60,7 +92,15 @@ class DisciplineController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $athletes = Athlete::orderBy('first_name', 'asc')->get();
+        $discipline = Discipline::findOrFail($id); 
+
+        $availableSports = Discipline::select('sport')
+            ->distinct()
+            ->orderBy('sport', 'asc')
+            ->pluck('sport');
+
+        return view("admin.disciplines.edit", compact('athletes', 'discipline', 'availableSports'));
     }
 
     /**
@@ -68,14 +108,45 @@ class DisciplineController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->all();
+        $discipline = Discipline::findOrFail($id);
+
+        $discipline->name = $data['name'];
+        $discipline->sport = $data['sport'];
+        $discipline->description = $data['description'];
+
+        if ($request->hasFile('cover_image')) {
+            if ($discipline->cover_image) {
+                Storage::delete($discipline->cover_image);
+            }
+
+            $img_path = Storage::putFile('disciplines_images', $request->file('cover_image'));
+            $discipline->cover_image = $img_path;
+        }
+
+        $discipline->save();
+
+        if (array_key_exists('athletes', $data)) {
+            $discipline->athletes()->sync($data['athletes']);
+        } else {
+            $discipline->athletes()->sync([]);
+        }
+
+        return redirect()->route("disciplines.show", $discipline->id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Discipline $discipline)
     {
-        //
+        if ($discipline->cover_image && !str_starts_with($discipline->cover_image, 'http')) {
+            Storage::delete($discipline->cover_image);
+        }
+
+        $discipline->athletes()->detach();
+        $discipline->delete();
+
+        return redirect()->route("disciplines.index");
     }
 }

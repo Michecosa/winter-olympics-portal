@@ -14,10 +14,10 @@
         </div>
         
         <div class="d-flex gap-2">
-            <a href="{{-- {{ route('admin.disciplines.edit', $discipline->id) }} --}}" class="btn btn-outline-dark px-4">
+            <a href="{{ route('disciplines.edit', $discipline->id) }}" class="btn btn-outline-dark px-4">
                 <i class="bi bi-pencil me-2"></i>Modifica
             </a>
-            <form action="{{-- {{ route('admin.disciplines.destroy', $discipline->id) }} --}}" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questa disciplina?')">
+            <form action="{{ route('disciplines.destroy', $discipline) }}" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questa disciplina?')">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger px-4">

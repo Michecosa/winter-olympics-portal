@@ -7,7 +7,7 @@
       <h1 class="fw-bold text-uppercase">Discipline</h1>
       <p class="text-muted">Gestisci le discipline olimpiche e gli atleti collegati</p>
     </div>
-    <a href="{{-- {{ route('admin.disciplines.create') }} --}}" class="btn btn-light px-4 shadow-sm">
+    <a href="{{ route('disciplines.create') }}" class="btn btn-light px-4 shadow-sm">
       <i class="fas fa-plus me-2"></i>Nuova Disciplina
     </a>
   </div>
@@ -24,28 +24,18 @@
         </div>
       </div>
 
-        <div class="col-12 col-md-4 col-lg-3">
+      <div class="col-12 col-md-4 col-lg-3">
           <label for="sport" class="form-label small fw-bold text-uppercase">Categoria Sport</label>
           <select name="sport" id="sport" class="form-select">
-            <option value="">Tutti gli sport</option>
-            
-            @php
-              $uniqueSports = [];
-              foreach($disciplines as $discipline) {
-                  if(!in_array($discipline->sport, $uniqueSports)) {
-                    $uniqueSports[] = $discipline->sport;
-                  }
-              }
-              sort($uniqueSports);
-            @endphp
-
-            @foreach($uniqueSports as $sport)
-              <option value="{{ $sport }}" {{ request('sport') == $sport ? 'selected' : '' }}>
-                {{ $sport }}
-              </option>
-            @endforeach
+              <option value="">Tutti gli sport</option>
+              
+              @foreach($availableSports as $sport)
+                  <option value="{{ $sport }}" {{ request('sport') == $sport ? 'selected' : '' }}>
+                      {{ $sport }}
+                  </option>
+              @endforeach
           </select>
-        </div>
+      </div>
 
         <div class="col-12 col-md-2 col-lg-2">
           <div class="btn-group w-100">
@@ -87,10 +77,10 @@
               Dettagli
             </a>
             <div class="btn-group">
-              <a href="{{-- {{ route('admin.disciplines.edit', $discipline->id) }} --}}" class="btn btn-sm btn-light">
+              <a href="{{ route('disciplines.edit', $discipline->id) }}" class="btn btn-sm btn-light">
                 <i class="bi bi-pencil"></i>
               </a>
-              <form action="{{-- {{ route('admin.disciplines.destroy', $discipline->id) }} --}}" method="POST" class="d-inline">
+              <form action="{{ route('disciplines.destroy', $discipline->id) }}" method="POST" class="d-inline">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-sm btn-light text-danger" onclick="return confirm('Vuoi eliminare questa disciplina?')">
@@ -103,7 +93,7 @@
       </div>
     @empty
       <div class="col-12 py-5 m-auto">
-        <p class="text-muted text-center display-6">Nessuna disciplina trovata.</p>
+        <p class="text-muted text-center display-6">Nessuna disciplina trovata</p>
       </div>
     @endforelse
   </div>
