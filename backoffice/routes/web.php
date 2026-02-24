@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DisciplineController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,9 @@ Route::middleware(['auth', 'verified'])
     ->group(function() {
         Route::get("/", [DashboardController::class, 'index'])->name("index");
         Route::get('/profile',[DashboardController::class, 'profile'])->name('profile');
-});
+        });
+
+Route::resource('/disciplines', DisciplineController::class)
+    ->middleware('auth','verified');
 
 require __DIR__.'/auth.php';
