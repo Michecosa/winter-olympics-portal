@@ -29,7 +29,7 @@
         </div>
 
         <h1 class="display-2 fw-bold text-uppercase tracking-widest">
-            Winter Games <span class="text-primary">2026</span>
+            Olimpiadi Invernali <span class="text-primary">2026</span>
         </h1>
 
         <p class="col-md-8 mx-auto fs-4 text-light opacity-75 mb-5">

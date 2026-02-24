@@ -15,7 +15,7 @@
         </div>
         <div class="ms-4">
             <h2 class="fw-bold mb-0">Ciao {{ Auth::user()->name }}!</h2>
-            <p class="text-muted mb-0">Gestione ufficiale Winter Games 2026</p>
+            <p class="text-muted mb-0">Admin ufficiale delle Olimpiadi Invernali 2026</p>
         </div>
     </div>
 
