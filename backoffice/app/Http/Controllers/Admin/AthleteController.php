@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Athlete;
 use App\Models\Country;
+use App\Models\Discipline;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AthleteController extends Controller
 {
@@ -26,7 +28,10 @@ class AthleteController extends Controller
      */
     public function create()
     {
-        //
+        $countries = Country::orderBy('name')->get();
+        $disciplines = Discipline::orderBy('name')->get();
+
+        return view('admin.athletes.create', compact('countries', 'disciplines'));
     }
 
     /**
@@ -34,7 +39,24 @@ class AthleteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $athlete = new Athlete();
+
+        $athlete->first_name = $data['first_name'];
+        $athlete->last_name = $data['last_name'];
+        $athlete->country_id = $data['country_id'];
+        $athlete->birth_date = $data['birth_date'];
+        $athlete->bio = $data['bio'];
+
+        $athlete->save();
+
+        if (array_key_exists('disciplines', $data)) {
+            $athlete->disciplines()->sync($data['disciplines']);
+        } else {
+            // Teoricamente non serve ma mi sono affezionata e quindi resta qui
+            $athlete->disciplines()->sync([]);
+        }
+        return redirect()->route("athletes.show", $athlete->id);
     }
 
     /**
@@ -49,9 +71,12 @@ class AthleteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Athlete $athlete)
     {
-        //
+        $countries = Country::orderBy('name', 'asc')->get();
+        $disciplines = Discipline::orderBy('name', 'asc')->get();
+
+        return view('admin.athletes.edit', compact('athlete', 'countries', 'disciplines'));
     }
 
     /**
@@ -59,7 +84,24 @@ class AthleteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->all();
+        $athlete = Athlete::findOrFail($id);
+
+        $athlete->first_name = $data['first_name'];
+        $athlete->last_name = $data['last_name'];
+        $athlete->country_id = $data['country_id'];
+        $athlete->birth_date = $data['birth_date'];
+        $athlete->bio = $data['bio'];
+
+        $athlete->save();
+
+        if (array_key_exists('disciplines', $data)) {
+            $athlete->disciplines()->sync($data['disciplines']);
+        } else {
+            $athlete->disciplines()->sync([]);
+        }
+
+        return redirect()->route("athletes.show", $athlete->id);
     }
 
     /**
@@ -67,6 +109,11 @@ class AthleteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $athlete = Athlete::findOrFail($id);
+
+        $athlete->disciplines()->detach();
+        $athlete->delete();
+
+        return redirect()->route('athletes.index');
     }
 }

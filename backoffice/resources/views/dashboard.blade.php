@@ -22,13 +22,9 @@
     <div class="card border-0 shadow-sm mb-5 bg-light">
         <div class="card-body px-4 py-3">
             <div class="row align-items-center text-center text-md-start">
-                <div class="col-md-3 py-2 py-md-0">
+                <div class="col-md-3 py-2 py-md-0 flex-grow-1">
                     <span class="text-muted">Database:</span>
                     <span class="text-success fw-bold ms-1">Online</span>
-                </div>
-                <div class="col-md-3 py-2 py-md-0 border-start-md">
-                    <span class="text-muted">Discipline attive:</span>
-                    <span class="fw-bold ms-1">15</span>
                 </div>
                 <div class="col-md-6 text-md-end fst-italic opacity-75">
                     <small>"Citius, Altius, Fortius &ndash; Communiter"</small>

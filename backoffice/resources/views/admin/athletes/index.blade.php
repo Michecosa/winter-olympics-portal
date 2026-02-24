@@ -34,15 +34,41 @@
                                       </div>
                                       <div>
                                           <h6 class="mb-0 fw-bold">{{ $athlete->first_name }} {{ $athlete->last_name }}</h6>
-                                          <small class="text-muted">Nato il: {{ \Carbon\Carbon::parse($athlete->birth_date)->format('d/m/Y') }}</small>
+                                          <small class="text-muted">Data di Nascita: {{ \Carbon\Carbon::parse($athlete->birth_date)->format('d/m/Y') }}</small>
                                       </div>
                                   </div>
                                   <div class="mt-3 d-flex justify-content-end gap-2">
-                                      <a href="{{ route('athletes.edit', $athlete->id) }}" class="btn btn-sm btn-white border"><i class="bi bi-pencil"></i></a>
-                                      <button class="btn btn-sm btn-white border text-danger"><i class="bi bi-trash"></i></button>
+                                      <a href="{{ route('athletes.edit', $athlete->id) }}" class="btn btn-sm border"><i class="bi bi-pencil"></i></a>
+                                      <button type="button" class="btn btn-sm border text-danger" 
+                                              data-bs-toggle="modal" 
+                                              data-bs-target="#deleteModal{{ $athlete->id }}">
+                                          <i class="bi bi-trash"></i>
+                                      </button>
                                   </div>
                               </div>
                             </a>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="deleteModal{{ $athlete->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $athlete->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content text-dark">
+                                <div class="modal-header">
+                                    <h5 class="modal-title fw-bold" id="deleteModalLabel{{ $athlete->id }}">Conferma Eliminazione</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-start">
+                                    Sei sicuro di voler eliminare l'atleta <span class="fw-bold text-danger">{{ $athlete->first_name }} {{ $athlete->last_name }}</span>? 
+                                    Tutti i dati associati verranno rimossi definitivamente.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annulla</button>
+                                    <form action="{{ route('athletes.destroy', $athlete->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Elimina</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach
