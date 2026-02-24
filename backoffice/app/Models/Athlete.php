@@ -11,6 +11,7 @@ class Athlete extends Model
     }
     
     public function disciplines() {
-        return $this->belongsToMany(Discipline::class);
+        return $this->belongsToMany(Discipline::class)
+            ->withPivot('medal_type');
     }
 }

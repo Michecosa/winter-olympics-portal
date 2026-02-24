@@ -84,7 +84,7 @@
                 </div>
                 <div class="card-body p-4">
                     @if($discipline->athletes->isNotEmpty())
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
                             @foreach ($discipline->athletes as $atleta)
                                 <div class="col">
                                     <div class="d-flex align-items-center p-2 border rounded-pill bg-light hover-bg-white transition shadow-sm h-100">
@@ -98,13 +98,23 @@
                                             @endif
                                         </div>
                                         
-                                        <div class="overflow-hidden">
+                                        <div class="overflow-hidden flex-grow-1">
                                             <p class="mb-0 fw-bold text-truncate" style="font-size: 0.9rem;">
                                                 {{ $atleta->first_name }} {{ $atleta->last_name }}
                                             </p>
                                             <small class="text-muted text-uppercase" style="font-size: 0.7rem;">
                                                 {{ $atleta->country->code }}
                                             </small>
+                                        </div>
+
+                                        <div class="col-auto text-end pe-3">
+                                            @if($atleta->pivot->medal_type === 'gold')
+                                                <i class="bi bi-trophy-fill h5 mb-0" style="color: #FFD700;" title="Oro"></i>
+                                            @elseif($atleta->pivot->medal_type === 'silver')
+                                                <i class="bi bi-trophy-fill h5 mb-0" style="color: #C0C0C0;" title="Argento"></i>
+                                            @elseif($atleta->pivot->medal_type === 'bronze')
+                                                <i class="bi bi-trophy-fill h5 mb-0" style="color: #CD7F32;" title="Bronzo"></i>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
