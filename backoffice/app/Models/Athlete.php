@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Athlete extends Model
 {
-    public function athlete() {
+    public function country() {
         return $this->belongsTo(Country::class);
+    }
+    
+    public function disciplines() {
+        return $this->belongsToMany(Discipline::class);
     }
 }
