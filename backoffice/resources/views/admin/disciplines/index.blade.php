@@ -53,9 +53,16 @@
       <div class="col">
         <div class="card h-100 border-0 shadow-sm hover-shadow transition">
 
-          <img src="https://placehold.co/600x400?text={{ urlencode($discipline->sport) }}" 
-            class="card-img-top" 
-            alt="{{ $discipline->name }}">
+        @if($discipline->cover_image)
+            <img src="{{ asset('storage/' . $discipline->cover_image) }}" 
+                class="card-img-top" 
+                style="height: 250px; object-fit: cover;"
+                alt="{{ $discipline->name }}">
+        @else
+            <img src="https://placehold.co/600x400?text={{ urlencode($discipline->sport) }}" 
+                class="card-img-top" 
+                alt="{{ $discipline->name }}">
+        @endif
                 
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">

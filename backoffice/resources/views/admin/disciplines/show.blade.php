@@ -30,10 +30,18 @@
     <div class="row g-4">
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm overflow-hidden">
-                <img src="https://placehold.co/600x400?text={{ urlencode($discipline->sport) }}" 
-                     class="img-fluid w-100" 
-                     style="height: 400px; object-fit: cover;" 
-                     alt="{{ $discipline->name }}">
+                @if($discipline->cover_image)
+                    <img src="{{ asset('storage/' . $discipline->cover_image) }}" 
+                        class="img-fluid w-100" 
+                        style="height: 400px; object-fit: cover;" 
+                        alt="{{ $discipline->name }}">
+                @else
+                    <img src="https://placehold.co/600x400?text={{ urlencode($discipline->sport) }}" 
+                        class="img-fluid w-100" 
+                        style="height: 400px; object-fit: cover;" 
+                        alt="{{ $discipline->name }}">
+                @endif
+                
                 <div class="card-body bg-dark text-white text-center py-2">
                     <small class="text-uppercase tracking-wider">Categoria: {{ $discipline->sport }}</small>
                 </div>
@@ -53,7 +61,7 @@
 
                     <div class="row g-3">
                         @foreach ($discipline->getAttributes() as $chiave => $valore)
-                            @if(!in_array($chiave, ['id', 'created_at', 'updated_at', 'name', 'sport', 'description']))
+                            @if(!in_array($chiave, ['id','cover_image', 'created_at', 'updated_at', 'name', 'sport', 'description']))
                                 <div class="col-md-6">
                                     <label class="text-uppercase small fw-bold text-muted d-block">{{ str_replace('_', ' ', $chiave) }}</label>
                                     <p class="fw-semibold text-dark">{{ $valore }}</p>
