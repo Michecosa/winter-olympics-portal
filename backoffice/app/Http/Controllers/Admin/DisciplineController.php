@@ -8,12 +8,23 @@ use Illuminate\Http\Request;
 
 class DisciplineController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $disciplines = Discipline::latest()->get();
+        $query = Discipline::query();
+        if ($request->has('search') && $request->search != '') {
+            # WHERE (name LIKE ... OR sport LIKE ...) ...
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('sport', 'like', '%' . $request->search . '%');
+            });
+        }
+        # ... AND sport = ...
+        if ($request->has('sport') && $request->sport != '') {
+            $query->where('sport', $request->sport);
+        }
+
+        $disciplines = $query->get();
+
         return view('admin.disciplines.index', compact('disciplines'));
     }
 
