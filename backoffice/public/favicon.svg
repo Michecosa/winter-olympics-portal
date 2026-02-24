@@ -1,0 +1,11 @@
+<svg width="80" height="80" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="background-color:white;">
+    
+    <g fill="none" stroke-width="25" transform="translate(150, 150) scale(0.6) translate(-455, -430)">
+        <circle cx="330" cy="400" r="55" stroke="blue"/>
+        <circle cx="455" cy="400" r="55" stroke="black"/>
+        <circle cx="580" cy="400" r="55" stroke="red"/>
+        
+        <circle cx="392.5" cy="460" r="55" stroke="darkorange"/>
+        <circle cx="517.5" cy="460" r="55" stroke="green"/>
+    </g>
+</svg>
