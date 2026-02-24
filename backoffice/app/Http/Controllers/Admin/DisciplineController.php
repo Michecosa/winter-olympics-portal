@@ -23,7 +23,7 @@ class DisciplineController extends Controller
             $query->where('sport', $request->sport);
         }
 
-        $disciplines = $query->get();
+        $disciplines = $query->orderBy('name', 'asc')->get();
 
         return view('admin.disciplines.index', compact('disciplines'));
     }
