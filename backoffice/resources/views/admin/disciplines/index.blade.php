@@ -87,13 +87,11 @@
               <a href="{{ route('disciplines.edit', $discipline->id) }}" class="btn btn-sm btn-light">
                 <i class="bi bi-pencil"></i>
               </a>
-              <form action="{{ route('disciplines.destroy', $discipline->id) }}" method="POST" class="d-inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-light text-danger" onclick="return confirm('Vuoi eliminare questa disciplina?')">
+              <button type="button" class="btn btn-sm btn-light text-danger" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#deleteModal{{ $discipline->id }}">
                   <i class="bi bi-trash"></i>
-                </button>
-              </form>
+              </button>
             </div>
           </div>
         </div>
@@ -104,6 +102,30 @@
       </div>
     @endforelse
   </div>
+</div>
+
+<div class="modal fade" id="deleteModal{{ $discipline->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $discipline->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="deleteModalLabel{{ $discipline->id }}">Conferma Eliminazione</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-start">
+                Sei sicuro di voler eliminare la disciplina <span class="fw-bold text-danger">{{ $discipline->name }}</span>? 
+                Questa azione è irreversibile e scollegherà tutti gli atleti associati.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annulla</button>
+                
+                <form action="{{ route('disciplines.destroy', $discipline->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Elimina</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>

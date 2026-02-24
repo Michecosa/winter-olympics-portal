@@ -17,13 +17,10 @@
             <a href="{{ route('disciplines.edit', $discipline->id) }}" class="btn btn-outline-dark px-4">
                 <i class="bi bi-pencil me-2"></i>Modifica
             </a>
-            <form action="{{ route('disciplines.destroy', $discipline) }}" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questa disciplina?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger px-4">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </form>
+            
+            <button type="button" class="btn btn-danger px-4" data-bs-toggle="modal" data-bs-target="#deleteModalShow">
+                <i class="bi bi-trash"></i>
+            </button>
         </div>
     </div>
 
@@ -126,6 +123,30 @@
                         </div>
                     @endif
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModalShow" tabindex="-1" aria-labelledby="deleteModalShowLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-dark">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="deleteModalShowLabel">Conferma Eliminazione</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-start">
+                Stai per eliminare definitivamente la disciplina <span class="fw-bold text-danger">{{ $discipline->name }}</span>. 
+                Questa operazione rimuoverà tutti i dati associati e non può essere annullata.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annulla</button>
+                
+                <form action="{{ route('disciplines.destroy', $discipline->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Elimina definitivamente</button>
+                </form>
             </div>
         </div>
     </div>
