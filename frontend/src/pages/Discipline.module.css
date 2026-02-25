@@ -1,0 +1,27 @@
+.imageWrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.imageWrapper img {
+    transition: transform 0.5s ease;
+}
+
+.imageWrapper:hover img {
+    transform: scale(1.05);
+}
+
+.categoryBadge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #2d3436;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
