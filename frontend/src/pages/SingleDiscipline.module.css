@@ -1,0 +1,42 @@
+.hero {
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Effetto Parallasse */
+}
+
+.athleteAvatar {
+    width: 45px;
+    height: 45px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #2d3436;
+    font-size: 0.8rem;
+    border: 1px solid #eee;
+}
+
+.medalBadge {
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.goldIcon {
+    color: #FFD700;
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.3));
+}
+
+.silverIcon {
+    color: #ADB5BD;
+    filter: drop-shadow(0 0 2px rgba(173, 181, 189, 0.3));
+}
+
+.bronzeIcon {
+    color: #CD7F32;
+    filter: drop-shadow(0 0 2px rgba(205, 127, 50, 0.3));
+}
