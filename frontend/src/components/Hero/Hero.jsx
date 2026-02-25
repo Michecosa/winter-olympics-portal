@@ -1,11 +1,12 @@
 import styles from "./Hero.module.css";
 import logo from "../../assets/logo-white.svg";
+import { Link } from "react-router-dom";
 
 
 export default function Hero() {
   return (
     <>
-      <section className={styles.heroContainer}>
+      <section className={`${styles.heroContainer}`} style={{marginBottom:"5rem"}}>
         <div className={`container ${styles.heroContent}`}>
           <div className="d-flex justify-content-between g-5">
             {/* MILANO CORTINA 2026 */}
@@ -25,12 +26,12 @@ export default function Hero() {
                   }}>
                     Scopri le Medaglie
                 </a>
-                <a className="btn btn-outline-light rounded-1 text-uppercase fw-bold px-3 py-2"
+                <Link to="/discipline" className="btn btn-outline-light rounded-1 text-uppercase fw-bold px-3 py-2"
                   style={{
                     boxShadow:"0px 0px 10px rgba(0, 0, 0, 0.29)",
                     backdropFilter: "blur(5px)"
                   }}>
-                    Store Ufficiale</a>
+                    Discipline</Link>
               </div>
             </div>
 

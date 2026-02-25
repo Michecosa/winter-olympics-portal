@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import OlympicLoader from '../OlymplicLoader/OlympicLoader';
 import styles from "./MedalTraker.module.css";
+import { Link } from 'react-router-dom';
 
 export default function MedalTracker() {
     const [disciplines, setDisciplines] = useState([]);
@@ -34,6 +35,7 @@ export default function MedalTracker() {
                 if (medal !== 'none') {
                     if (!stats[a.country.id]) {
                         stats[a.country.id] = { 
+                          id: a.id,
                           name: a.country.name, 
                           code: a.country.code, 
                           gold: 0, 
@@ -59,6 +61,7 @@ export default function MedalTracker() {
                 if (medal !== 'none') {
                     if (!stats[a.id]) {
                         stats[a.id] = { 
+                            id: a.id,
                             name: `${a.first_name} ${a.last_name}`, 
                             country: a.country.name,
                             countryCode: a.country.code,
@@ -79,12 +82,19 @@ export default function MedalTracker() {
         );
     };
 
-    if (loading) return <OlympicLoader/>;
+    if (loading) return <div className='mt-5'><OlympicLoader/></div>;
 
     return (
         <section id="medal-tracker" className={`container my-5 pt-4 ${styles.mainWrapper}`}>
             <div className="text-center mb-5">
-                <h2 className="fw-bold mb-2 text-uppercase">Medagliere Live</h2>
+                <div className='d-flex justify-content-center align-items-center'>
+                  <h2 className="fw-bold mb-2 text-uppercase"  style={{fontSize:"2.5rem"}}> Medagliere</h2>
+                  <div style={{marginBottom:"0.1rem"}}>
+                    <span className='ms-3 badge text-bg-danger rounded-pill' style={{fontSize:"0.82rem", paddingInlineStart:"0.45rem", paddingInlineEnd:"0.72rem", verticalAlign:"middle"}}>
+                      <span style={{fontSize:"1rem"}}>&bull;</span> LIVE
+                    </span>
+                  </div>
+                </div>
                 <p className="text-muted small text-uppercase" style={{ letterSpacing: '2px' }}>Milano 2026 - Risultati in tempo reale</p>
             </div>
 
@@ -137,8 +147,8 @@ export default function MedalTracker() {
                 <div className="tab-pane fade" id="athlete-pane" role="tabpanel">
                     <div className="row g-4">
                         {getMedalists().map((athlete, index) => (
-                            <div key={athlete.name + index} className="col-md-6 col-lg-4">
-                                <div className="p-3 bg-white rounded-4 shadow-sm h-100 d-flex flex-column justify-content-between border border-light">
+                            <Link to={`/atleti/${athlete.id}`} key={athlete.name + index} className="col-md-6 col-lg-4 text-decoration-none text-dark">
+                                <div className="p-3 bg-white rounded-4 shadow-sm h-100 d-flex flex-column justify-content-between border border-light text-decoration-none text-dark">
                                     <div>
                                         <div className="d-flex justify-content-between align-items-start mb-2">
                                             <div>
@@ -191,7 +201,7 @@ export default function MedalTracker() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

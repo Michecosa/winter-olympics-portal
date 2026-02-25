@@ -25,7 +25,7 @@ export default function NewsTicker () {
   );
 
   return (
-    <div className={`bg-dark mt-5 ${styles.scrollingTextContainer}`}>
+    <div className={`bg-dark ${styles.scrollingTextContainer}`}>
       <div className={`${styles.scrollingText}`}>
         <span>{renderContent()}</span>
         <span>{renderContent()}</span>
