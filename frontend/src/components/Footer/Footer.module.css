@@ -1,0 +1,21 @@
+.footer {
+    color: #2d3436;
+        margin-top: 8rem !important;
+}
+
+:global(.hover-link) {
+    transition: color 0.2s ease;
+}
+
+:global(.hover-link:hover) {
+    color: #009ef3 !important;
+}
+
+.footer i {
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.footer a:hover i {
+    transform: translateY(-3px);
+}
