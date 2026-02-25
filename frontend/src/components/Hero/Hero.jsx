@@ -18,19 +18,19 @@ export default function Hero() {
                 &ndash; Dreaming Together
               </p>
               <div className="d-flex gap-3">
-                <a className="btn btn-outline-light rounded-1 text-uppercase fw-bold px-3 py-2"
+                <a href="#medal-tracker" className="btn btn-outline-light rounded-1 text-uppercase fw-bold px-3 py-2"
                   style={{
                     boxShadow:"0px 0px 10px rgba(0, 0, 0, 0.29)",
                     backdropFilter: "blur(5px)"
                   }}>
-                    Scopri il calendario
+                    Scopri le Medaglie
                 </a>
                 <a className="btn btn-outline-light rounded-1 text-uppercase fw-bold px-3 py-2"
                   style={{
                     boxShadow:"0px 0px 10px rgba(0, 0, 0, 0.29)",
                     backdropFilter: "blur(5px)"
                   }}>
-                    Acquista i biglietti</a>
+                    Store Ufficiale</a>
               </div>
             </div>
 

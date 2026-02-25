@@ -1,0 +1,33 @@
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 100px;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border: 3px solid;
+  border-radius: 50%;
+  background: transparent;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.blue   { border-color: #0081C8; animation-delay: 0s; }
+.yellow { border-color: #FCB131; animation-delay: 0.2s; }
+.black  { border-color: #000000; animation-delay: 0.4s; }
+.green  { border-color: #00A651; animation-delay: 0.6s; }
+.red    { border-color: #EE334E; animation-delay: 0.8s; }
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}

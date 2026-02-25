@@ -4,9 +4,9 @@ import styles from "./Header.module.css";
 export default function Header() {
   return (
     <header>
-      <nav className="navbar navbar-expand-lg bg-white">
+      <nav className="navbar navbar-expand-lg bg-white" style={{fontSize:"1.05rem"}}>
         <div className="container-fluid px-5 align-items-baseline ">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand me-5" href="#">
             <img src={logo} alt="Logo" width="auto" height="50"/>
           </a>
 
@@ -15,14 +15,14 @@ export default function Header() {
           </button>
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+              <li className="nav-item me-2">
                 <a className="nav-link active" aria-current="page" href="#">Home</a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Risultati</a>
+              <li className="nav-item me-2">
+                <a className="nav-link" href="#">Discipline</a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Shop</a>
+              <li className="nav-item me-2">
+                <a className="nav-link" href="#medal-tracker">Risultati</a>
               </li>
             </ul>
             <span className="navbar-text fst-italic">

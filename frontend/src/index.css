@@ -1,1 +1,5 @@
-body {min-width: 360px;}
+body {min-width: 387px;}
+
+.bg-first { background-color: #19b028; }
+.bg-second { background-color: #ed8f03; }
+.bg-third { background-color: #cf3a3a; }
