@@ -10,7 +10,7 @@ export default function MedalTracker() {
 
     useEffect(() => {
         const fetchData = axios.get('http://127.0.0.1:8000/api/disciplines');
-        const timer = new Promise((resolve) => setTimeout(resolve, 2000));
+        const timer = new Promise((resolve) => setTimeout(resolve, 6000));
 
         Promise.all([fetchData, timer])
             .then(([response]) => {
@@ -130,7 +130,8 @@ export default function MedalTracker() {
                                             <td className="ps-4 fw-light text-muted">{index + 1}</td>
                                             <td className="fw-semibold d-flex align-items-center">
                                                 <img src={`https://flagsapi.com/${country.code}/flat/24.png`} className="me-2 rounded-1" alt={country.name} height="20" />
-                                                {country.name}
+                                                <span className='d-none d-md-block'>{country.name}</span>
+                                                <span className='d-sm-block d-md-none'>{country.code}</span>
                                             </td>
                                             <td className="text-center"><span className="badge text-dark" style={{fontSize:"1.15rem", backgroundColor: '#ffd9003e'}}>{country.gold}</span></td>
                                             <td className="text-center"><span className="badge text-dark" style={{fontSize:"1.15rem", backgroundColor: '#c0c0c03c'}}>{country.silver}</span></td>
