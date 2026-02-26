@@ -1,5 +1,21 @@
+.italianFlag {
+    height: 5px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+        to right, 
+        #008C45 33.33%, 
+        #F4F5F0 33.33%, 
+        #F4F5F0 66.66%, 
+        #CD212A 66.66%
+    );
+}
+
 .footer {
     color: #2d3436;
+    padding-top: 3rem !important; 
 }
 
 :global(.hover-link) {

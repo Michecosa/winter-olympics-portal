@@ -85,7 +85,7 @@ export default function MedalTracker() {
     if (loading) return <div className='mt-5'><OlympicLoader/></div>;
 
     return (
-        <section id="medal-tracker" className={`container my-5 pt-4 ${styles.mainWrapper}`}>
+        <section id="medal-tracker" className={`my-5 pt-4 ${styles.mainWrapper}`}>
             <div className="text-center mb-5">
                 <div className='d-flex justify-content-center align-items-center'>
                   <h2 className="fw-bold mb-2 text-uppercase"  style={{fontSize:"2.5rem"}}> Medagliere</h2>

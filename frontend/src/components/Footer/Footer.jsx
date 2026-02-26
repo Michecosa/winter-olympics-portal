@@ -5,7 +5,9 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className={`bg-dark text-white border-top py-5 ${styles.footer}`}>
+        <footer className={`bg-dark text-white border-top py-5 ${styles.footer} position-relative`}>
+            <div className={styles.italianFlag}></div>
+
             <div className="container">
                 <div className="row g-4 justify-content-between">
                     
