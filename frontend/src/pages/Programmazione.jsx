@@ -193,7 +193,12 @@ export default function Programmazione() {
                         key={d.id}
                         className="col text-decoration-none text-dark"
                       >
-                        <div className={styles.eventCard}>
+                        <div className={`
+                            ${styles.eventCard} 
+                            ${d.status === "PROGRAMMATO" ? '' : ''} 
+                            ${d.status === "LIVE" ? styles.cardLive : 'bg-light opacity-50'} 
+                            ${d.status === "FINE" ? styles.cardFinished : ''}
+                        `}>
                           <div className={styles.cardMainContent}>
                             <div className={styles.iconContainer}>
                               <div className={styles.disciplineIcon}>
