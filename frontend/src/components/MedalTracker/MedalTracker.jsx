@@ -124,21 +124,49 @@ export default function MedalTracker() {
                                         <th className="text-center d-none d-md-block">Tot</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
-                                    {getCountryStats().map((country, index) => (
-                                        <tr key={country.name} style={{ borderBottom: '1px solid #f8f9fa', fontSize:"1.15rem" }}>
-                                            <td className="ps-4 fw-light text-muted">{index + 1}</td>
-                                            <td className="fw-semibold d-flex align-items-center">
-                                                <img src={`https://flagsapi.com/${country.code}/flat/24.png`} className="me-2 rounded-1" alt={country.name} height="20" />
-                                                <span className='d-none d-md-block'>{country.name}</span>
-                                                <span className='d-sm-block d-md-none'>{country.code}</span>
-                                            </td>
-                                            <td className="text-center"><span className="badge text-dark" style={{fontSize:"1.15rem", backgroundColor: '#ffd9003e'}}>{country.gold}</span></td>
-                                            <td className="text-center"><span className="badge text-dark" style={{fontSize:"1.15rem", backgroundColor: '#c0c0c03c'}}>{country.silver}</span></td>
-                                            <td className="text-center"><span className="badge text-dark" style={{fontSize:"1.15rem", backgroundColor: '#cd803234'}}>{country.bronze}</span></td>
-                                            <td className="text-center fw-bold d-none d-md-block" style={{fontSize:"1.15rem"}}>{country.gold + country.silver + country.bronze}</td>
-                                        </tr>
-                                    ))}
+                                    {getCountryStats().map((country, index) => {
+                                        const isFirst = index === 0;
+                                        const rowClass = isFirst ? 'table-warning fw-bold' : '';
+                                        return (
+                                            <tr key={country.name} className={`text-uppercase ${rowClass}`} style={{letterSpacing:"0.15rem"}}>
+                                                <td className="ps-4 fw-light text-muted">{index + 1}</td>
+                                                
+                                                <td>
+                                                    <div className={styles.countryCell}>
+                                                        <img 
+                                                            src={`https://flagsapi.com/${country.code}/flat/24.png`} 
+                                                            className="me-3 rounded-1" 
+                                                            alt="" 
+                                                            style={{ height: '20px', width: 'auto', display: 'block' }} 
+                                                        />
+                                                        <span className='d-none d-md-block'>{country.name}</span>
+                                                        <span className='d-md-none'>{country.code}</span>
+                                                    </div>
+                                                </td>
+
+                                                <td className="text-center">
+                                                    <span className="badge text-dark" style={{fontSize:"1.15rem", backgroundColor: '#ffd9003e', width: '45px'}}>
+                                                        {country.gold}
+                                                    </span>
+                                                </td>
+                                                <td className="text-center">
+                                                    <span className="badge text-dark" style={{fontSize:"1.15rem", backgroundColor: '#c0c0c03c', width: '45px'}}>
+                                                        {country.silver}
+                                                    </span>
+                                                </td>
+                                                <td className="text-center">
+                                                    <span className="badge text-dark" style={{fontSize:"1.15rem", backgroundColor: '#cd803234', width: '45px'}}>
+                                                        {country.bronze}
+                                                    </span>
+                                                </td>
+                                                <td className="text-center fw-bold d-none d-md-table-cell" style={{fontSize:"1.15rem"}}>
+                                                    {country.gold + country.silver + country.bronze}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>

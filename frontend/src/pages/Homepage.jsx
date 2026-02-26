@@ -8,6 +8,9 @@ export default function Homepage() {
       <Hero />
       <NewsTicker />
       <MedalTracker />
+      <div className="pb-5"></div>
+      <div className="pb-5"></div>
+      <div className="pb-5"></div>
     </>
   )
 }
