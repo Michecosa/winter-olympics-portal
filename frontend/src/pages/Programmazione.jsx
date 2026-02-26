@@ -97,21 +97,21 @@ export default function Programmazione() {
 
   const iconMapping = {
     "Sci Alpino": "alpine-skiing",
-    Biathlon: "biathlon",
-    Bob: "bobsleigh",
+    "Biathlon": "biathlon",
+    "Bob": "bobsleigh",
     "Sci di Fondo": "cross-country-skiing",
-    Curling: "curling",
+    "Curling": "curling",
     "Pattinaggio di Figura": "figure-skating",
     "Sci Freestyle": "freestyle-skiing",
     "Hockey su Ghiaccio": "ice-hockey",
     "Combinata Nordica": "nordic-combined",
     "Short Track": "short-track-speed-skating",
-    Skeleton: "skeleton",
+    "Skeleton": "skeleton",
     "Salto con gli Sci": "ski-jumping",
     "Sci Alpinismo": "ski-mountaineering",
-    Snowboard: "snowboard",
+    "Snowboard": "snowboard",
     "Pattinaggio di Velocità": "speed-skating",
-    Slittino: "loge",
+    "Slittino": "loge",
   };
 
   const getIconPath = (disciplineName) => {
