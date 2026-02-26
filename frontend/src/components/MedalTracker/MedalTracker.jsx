@@ -109,7 +109,7 @@ export default function MedalTracker() {
                 </ul>
             </div>
 
-            <div className={`tab-content ${styles.fadeSection}`} id="medalTabContent">
+            <div className={`tab-content ${styles.fadeSection}`} id="medalTabContent" style={{marginBottom:"7rem"}}>
                 <div className="tab-pane fade show active" id="country-pane" role="tabpanel">
                     <div className="bg-white rounded-4 shadow-sm overflow-hidden p-3">
                         <div className="table-responsive">
