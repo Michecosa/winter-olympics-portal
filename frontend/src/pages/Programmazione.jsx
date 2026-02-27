@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./Programmazione.module.css";
 import OlympicLoader from "../components/OlymplicLoader/OlympicLoader";
 import { Link } from "react-router-dom";
+import onErrorSvg from "../assets/person-walking.svg"
 
 export default function Programmazione() {
   const [disciplines, setDisciplines] = useState([]);
@@ -209,7 +210,7 @@ export default function Programmazione() {
                                   onError={(e) => {
                                     e.target.onerror = null;
                                     e.target.src =
-                                      "https://i.pinimg.com/1200x/5a/05/f5/5a05f58317fb36902826e3a0b84ad7cc.jpg";
+                                      onErrorSvg;
                                   }}
                                 />
                               </div>
