@@ -108,12 +108,21 @@ class DisciplineController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = $request->all();
         $discipline = Discipline::findOrFail($id);
 
-        $discipline->name = $data['name'];
-        $discipline->sport = $data['sport'];
-        $discipline->description = $data['description'];
+        if ($request->has('athletes')) {
+            $selectedAthletes = collect($request->athletes)->filter(fn($item) => isset($item['id']));
+            $medals = $selectedAthletes->pluck('medal_type')->filter(fn($medal) => $medal !== 'none');
+
+            if ($medals->count() !== $medals->unique()->count()) {
+                return back()->withErrors(['athletes' => 'Attenzione: Ogni medaglia (Oro, Argento, Bronzo) può essere assegnata a un solo atleta per disciplina'])
+                    ->withInput();
+            }
+        }
+
+        $discipline->name = $request->name;
+        $discipline->sport = $request->sport;
+        $discipline->description = $request->description;
 
         if ($request->hasFile('cover_image')) {
             if ($discipline->cover_image) {
@@ -126,8 +135,17 @@ class DisciplineController extends Controller
 
         $discipline->save();
 
-        if (array_key_exists('athletes', $data)) {
-            $discipline->athletes()->sync($data['athletes']);
+        if ($request->has('athletes')) {
+            $formattedAthletes = [];
+            
+            foreach ($request->athletes as $athleteId => $pivotData) {
+                if (isset($pivotData['id'])) {
+                    $formattedAthletes[$athleteId] = [
+                        'medal_type' => $pivotData['medal_type']
+                    ];
+                }
+            }
+            $discipline->athletes()->sync($formattedAthletes);
         } else {
             $discipline->athletes()->sync([]);
         }

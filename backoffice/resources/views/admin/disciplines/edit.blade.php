@@ -74,25 +74,44 @@
                                         <label class="form-label fw-bold small text-uppercase mb-3">
                                             <i class="bi bi-people-fill me-2"></i>Gestisci Atleti Partecipanti
                                         </label>
+
+                                        @error('athletes')
+                                            <div class="alert alert-danger border-0 shadow-sm mb-3 d-flex align-items-center">
+                                                <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                                                <div>{{ $message }}</div>
+                                            </div>
+                                        @enderror
+
                                         <div class="athlete-selector p-3 border rounded shadow-sm bg-light-subtle">
                                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2 overflow-auto" style="max-height: 250px;">
-                                                @foreach($athletes as $athlete)
-                                                    <div class="col">
-                                                        <div class="form-check athlete-card h-100 p-2 border rounded bg-white">
-                                                            <input class="form-check-input ms-1" type="checkbox" name="athletes[]" value="{{ $athlete->id }}" id="athlete-{{ $athlete->id }}"
-                                                                  {{-- Controllo se l'atleta era già collegato --}}
-                                                                  @if($errors->any())
-                                                                      {{ is_array(old('athletes')) && in_array($athlete->id, old('athletes')) ? 'checked' : '' }}
-                                                                  @else
-                                                                      {{ $discipline->athletes->contains($athlete->id) ? 'checked' : '' }}
-                                                                  @endif
+                                            @foreach($athletes as $athlete)
+                                                <div class="col">
+                                                    <div class="form-check athlete-card h-100 p-2 border rounded bg-white shadow-sm">
+                                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                                            <input class="form-check-input ms-1" type="checkbox" name="athletes[{{ $athlete->id }}][id]" value="{{ $athlete->id }}" id="athlete-{{ $athlete->id }}"
+                                                                @if($errors->any())
+                                                                    {{ is_array(old('athletes')) && isset(old('athletes')[$athlete->id]) ? 'checked' : '' }}
+                                                                @else
+                                                                    {{ $discipline->athletes->contains($athlete->id) ? 'checked' : '' }}
+                                                                @endif
                                                             >
                                                             <label class="form-check-label ps-2 small fw-semibold" for="athlete-{{ $athlete->id }}">
                                                                 {{ $athlete->first_name }} {{ $athlete->last_name }}
                                                             </label>
                                                         </div>
+                                                        
+                                                        <select name="athletes[{{ $athlete->id }}][medal_type]" class="form-select form-select-sm mt-1">
+                                                            @php
+                                                                $currentMedal = $discipline->athletes->find($athlete->id)?->pivot->medal_type ?? 'none';
+                                                            @endphp
+                                                            <option value="none" {{ old("athletes.$athlete->id.medal_type", $currentMedal) == 'none' ? 'selected' : '' }}>Nessuna</option>
+                                                            <option value="gold" {{ old("athletes.$athlete->id.medal_type", $currentMedal) == 'gold' ? 'selected' : '' }}>Oro</option>
+                                                            <option value="silver" {{ old("athletes.$athlete->id.medal_type", $currentMedal) == 'silver' ? 'selected' : '' }}>Argento</option>
+                                                            <option value="bronze" {{ old("athletes.$athlete->id.medal_type", $currentMedal) == 'bronze' ? 'selected' : '' }}>Bronzo</option>
+                                                        </select>
                                                     </div>
-                                                @endforeach
+                                                </div>
+                                            @endforeach
                                             </div>
                                         </div>
                                     </div>
@@ -114,4 +133,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('form-select-sm')) {
+            const allSelects = document.querySelectorAll('.form-select-sm');
+            const selectedValues = Array.from(allSelects)
+                .map(s => s.value)
+                .filter(v => v !== 'none');
+
+            allSelects.forEach(select => {
+                const options = select.querySelectorAll('option');
+                options.forEach(option => {
+                    if (option.value !== 'none') {
+                        const isSelectedElsewhere = selectedValues.includes(option.value) && select.value !== option.value;
+                        option.disabled = isSelectedElsewhere;
+                    }
+                });
+            });
+        }
+    });
+</script>
 @endsection
