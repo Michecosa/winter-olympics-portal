@@ -2,30 +2,38 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import OlympicLoader from "../components/OlymplicLoader/OlympicLoader";
 import styles from "./Discipline.module.css";
-import { Link } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 export default function Discipline() {
   const [disciplines, setDisciplines] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSport, setSelectedSport] = useState("");
+  const [availableSports, setAvailableSports] = useState([]);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search") || "";
+  const selectedSport = searchParams.get("sport") || "";
+
+  const hasFilters = searchTerm !== "" || selectedSport !== "";
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get("http://127.0.0.1:8000/api/disciplines")
       .then((response) => {
         if (response.data.success) {
-          setDisciplines(response.data.data);
+          const data = response.data.data;
+          setDisciplines(data);
+
+          const sports = [...new Set(data.map((d) => d.sport))].sort();
+          setAvailableSports(sports);
         }
       })
       .catch((err) => console.error("Errore API:", err))
       .finally(() => {
-        setTimeout(() => setLoading(false), 800);
+        setTimeout(() => setLoading(false), 600);
       });
   }, []);
-
-  const availableSports = [...new Set(disciplines.map((d) => d.sport))].sort();
 
   const filteredDisciplines = disciplines.filter((d) => {
     const matchesText =
@@ -37,13 +45,15 @@ export default function Discipline() {
     return matchesText && matchesSport;
   });
 
-  if (loading)
-    return (
-      <div className="mt-5">
-        <OlympicLoader />
-        <div className="pb-5"></div>
-      </div>
-    );
+  const handleFilterChange = (key, value) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (value) {
+      newParams.set(key, value);
+    } else {
+      newParams.delete(key);
+    }
+    setSearchParams(newParams);
+  };
 
   return (
     <section className="container my-5">
@@ -57,40 +67,58 @@ export default function Discipline() {
         </p>
 
         <div className="row justify-content-center mt-4 g-2">
-          <div className="col-12 col-md-8 col-lg-6">
-            <div
-              className={`input-group shadow-sm rounded-pill overflow-hidden border ${styles.searchWrapper}`}
-            >
-              <span className="input-group-text bg-white border-0 ps-4">
-                <i className="bi bi-search text-muted"></i>
-              </span>
-              <input
-                type="text"
-                className={`form-control ${styles.filterInput} py-3`}
-                placeholder="Cerca per nome o sport..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <select
-                className={`form-select ${styles.filterSelect}`}
-                style={{ maxWidth: "160px" }}
-                value={selectedSport}
-                onChange={(e) => setSelectedSport(e.target.value)}
+          <div className="col-12 col-md-10 col-lg-8">
+            <div className="d-flex flex-column flex-md-row align-items-center justify-content-center gap-4">
+              <div
+                className={`input-group shadow-sm rounded-pill-md overflow-hidden border flex-grow-1 rounded-pill ${styles.responsiveSearchContainer}`}
               >
-                <option value="">Tutti gli Sport</option>
-                {availableSports.map((sport) => (
-                  <option key={sport} value={sport}>
-                    {sport}
-                  </option>
-                ))}
-              </select>
+                <span className="input-group-text bg-white border-0 ps-4 d-none d-sm-flex">
+                  <i className="bi bi-search text-muted"></i>
+                </span>
+
+                <input
+                  type="text"
+                  className={`form-control border-0 py-3 ${styles.filterInput}`}
+                  placeholder="Cerca..."
+                  value={searchTerm}
+                  onChange={(e) => handleFilterChange("search", e.target.value)}
+                />
+
+                <select
+                  className={`form-select ${styles.filterSelect}`}
+                  value={selectedSport}
+                  onChange={(e) => handleFilterChange("sport", e.target.value)}
+                >
+                  <option value="">Tutti gli Sport</option>
+                  {availableSports.map((sport) => (
+                    <option key={sport} value={sport}>
+                      {sport}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {hasFilters && (
+                <Link
+                  to="/discipline"
+                  onClick={() => setSearchParams({})}
+                  className={`btn btn-outline-light border shadow-sm rounded-circle d-flex align-items-center justify-content-center text-danger ${styles.resetBtn}`}
+                  title="Reset filtri"
+                >
+                  <i className="bi bi-arrow-counterclockwise fs-4"></i>
+                </Link>
+              )}
             </div>
           </div>
         </div>
       </div>
 
       <div className="row g-4">
-        {filteredDisciplines.length > 0 ? (
+        {loading ? (
+          <div className="col-12 text-center py-5">
+            <OlympicLoader />
+          </div>
+        ) : filteredDisciplines.length > 0 ? (
           filteredDisciplines.map((d) => (
             <div key={d.id} className="col-12 col-md-6 col-lg-4">
               <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
@@ -106,20 +134,14 @@ export default function Discipline() {
 
                 <div className="card-body p-4 d-flex flex-column">
                   <h5 className="card-title fw-bold mb-3">{d.name}</h5>
-                  <p
-                    className="card-text text-muted small mb-4 flex-grow-1"
-                    style={{ lineHeight: "1.6" }}
-                  >
+                  <p className="card-text text-muted small mb-4 flex-grow-1">
                     {d.description}
                   </p>
-
-                  <hr className="opacity-10" />
-
-                  <div className="d-flex justify-content-between align-items-center mt-3">
-                    <div className="text-muted small">
-                      <i className="bi bi-people me-2"></i>
-                      <strong>{d.athletes.length}</strong> Atleti iscritti
-                    </div>
+                  <div className="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+                    <span className="small text-muted">
+                      <i className="bi bi-people me-1"></i>{" "}
+                      {d.athletes?.length || 0} Atleti iscritti
+                    </span>
                     <Link
                       to={`/discipline/${d.id}`}
                       className="btn btn-outline-dark btn-sm rounded-pill px-3"
@@ -132,13 +154,13 @@ export default function Discipline() {
             </div>
           ))
         ) : (
-          <div className="text-center py-5">
-            <h4 className="text-muted">
-              Nessun risultato trovato per i criteri selezionati.
-            </h4>
+          <div className="text-center py-5 w-100">
+            <i className="bi bi-search fs-1 text-muted d-block mb-3"></i>
+            <h4 className="text-muted">Nessuna disciplina trovata</h4>
           </div>
         )}
       </div>
+      <div className="pb-5"></div>
       <div className="pb-5"></div>
       <div className="pb-5"></div>
       <div className="pb-5"></div>
