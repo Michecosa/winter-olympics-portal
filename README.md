@@ -6,8 +6,8 @@ Un portale completo per la gestione e la visualizzazione dei dati relativi alle 
 
 - **Backoffice:** [Laravel 10+](https://laravel.com/) (PHP)
 - **Frontoffice:** [React](https://reactjs.org/) (con Vite/Next.js)
-- **Database:** MySQL / PostgreSQL
-- **Autenticazione:** Laravel Sanctum / Passport
+- **Database:** MySQL
+- **Autenticazione:** Laravel Breeze
 
 <br />
 
