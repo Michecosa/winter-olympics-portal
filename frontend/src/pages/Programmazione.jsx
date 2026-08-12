@@ -4,6 +4,7 @@ import styles from "./Programmazione.module.css";
 import OlympicLoader from "../components/OlymplicLoader/OlympicLoader";
 import { Link } from "react-router-dom";
 import onErrorSvg from "../assets/person-walking.svg"
+import { apiUrl } from "../config";
 
 export default function Programmazione() {
   const [disciplines, setDisciplines] = useState([]);
@@ -11,7 +12,7 @@ export default function Programmazione() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/disciplines")
+      .get(apiUrl("/disciplines"))
       .then((response) => {
         if (response.data.success) {
           setDisciplines(response.data.data);

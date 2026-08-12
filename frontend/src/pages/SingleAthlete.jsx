@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import OlympicLoader from "../components/OlymplicLoader/OlympicLoader";
 import styles from "./SingleAthlete.module.css";
+import { apiUrl, storageUrl } from "../config";
 
 export default function SingleAthlete() {
   const { id } = useParams();
@@ -11,7 +12,7 @@ export default function SingleAthlete() {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/api/athletes/${id}`)
+      .get(apiUrl(`/athletes/${id}`))
       .then((response) => {
         if (response.data.success) {
           setAthlete(response.data.data);
@@ -134,7 +135,7 @@ export default function SingleAthlete() {
                   <div className="p-3 bg-white rounded-4 shadow-sm border border-light d-flex justify-content-between align-items-center transition-hover">
                     <div className="d-flex align-items-center">
                       <img
-                        src={`http://127.0.0.1:8000/storage/${d.cover_image}`}
+                        src={storageUrl(d.cover_image)}
                         alt={d.name}
                         className="rounded-3 me-3"
                         style={{

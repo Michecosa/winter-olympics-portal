@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import OlympicLoader from "../components/OlymplicLoader/OlympicLoader";
 import styles from "./SingleDiscipline.module.css";
+import { apiUrl, storageUrl } from "../config";
 
 export default function SingleDiscipline() {
   const { id } = useParams();
@@ -11,7 +12,7 @@ export default function SingleDiscipline() {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/api/disciplines/${id}`)
+      .get(apiUrl(`/disciplines/${id}`))
       .then((response) => {
         if (response.data.success) {
           setDiscipline(response.data.data);
@@ -42,7 +43,7 @@ export default function SingleDiscipline() {
       <div
         className={styles.hero}
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(http://127.0.0.1:8000/storage/${discipline.cover_image})`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${storageUrl(discipline.cover_image)})`,
         }}
       >
         <div className="container h-100 d-flex flex-column justify-content-center align-items-center text-white text-center">

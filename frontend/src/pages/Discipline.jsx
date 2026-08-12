@@ -3,6 +3,7 @@ import axios from "axios";
 import OlympicLoader from "../components/OlymplicLoader/OlympicLoader";
 import styles from "./Discipline.module.css";
 import { useSearchParams, Link } from "react-router-dom";
+import { apiUrl, storageUrl } from "../config";
 
 export default function Discipline() {
   const [disciplines, setDisciplines] = useState([]);
@@ -19,7 +20,7 @@ export default function Discipline() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://127.0.0.1:8000/api/disciplines")
+      .get(apiUrl("/disciplines"))
       .then((response) => {
         if (response.data.success) {
           const data = response.data.data;
@@ -124,7 +125,7 @@ export default function Discipline() {
               <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
                 <div className={styles.imageWrapper}>
                   <img
-                    src={`http://127.0.0.1:8000/storage/${d.cover_image}`}
+                    src={storageUrl(d.cover_image)}
                     className="card-img-top"
                     alt={d.name}
                     style={{ height: "200px", objectFit: "cover" }}

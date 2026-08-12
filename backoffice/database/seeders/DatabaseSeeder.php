@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,7 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // L'ordine conta: AthleteSeeder collega atleti a nazioni e discipline.
         $this->call([
+            UserSeeder::class,
             CountrySeeder::class,
             DisciplineSeeder::class,
             AthleteSeeder::class,

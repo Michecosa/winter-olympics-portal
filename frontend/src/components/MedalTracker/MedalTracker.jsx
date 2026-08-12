@@ -3,13 +3,14 @@ import axios from 'axios';
 import OlympicLoader from '../OlymplicLoader/OlympicLoader';
 import styles from "./MedalTraker.module.css";
 import { Link } from 'react-router-dom';
+import { apiUrl } from '../../config';
 
 export default function MedalTracker() {
     const [disciplines, setDisciplines] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchData = axios.get('http://127.0.0.1:8000/api/disciplines');
+        const fetchData = axios.get(apiUrl('/disciplines'));
         const timer = new Promise((resolve) => setTimeout(resolve, 6000));
 
         Promise.all([fetchData, timer])
